@@ -11,6 +11,13 @@
             "args": []
         },
         {
+            "taskName": "clean",
+            "command": "make",
+            "isBuildCommand": true,
+            "showOutput": "always",
+            "args": ["clean"]
+        },
+        {
             "taskName": "uplaod",
             "command": "/Applications/SEGGER/JLink/JLinkExe",
             "args": [

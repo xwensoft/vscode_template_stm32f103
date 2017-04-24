@@ -1,3 +1,6 @@
+# 项目
+PROJECT_NAME := stm32f103rct6
+
 # 编译工具
 SDK_PATH := /Applications/gcc-arm-none-eabi/sdk/bin/
 
@@ -51,17 +54,17 @@ CXX := $(SDK_PATH)arm-none-eabi-g++
 CP := $(SDK_PATH)arm-none-eabi-objcopy
 
 
-all: stm32f103rct6.hex
+all: $(PROJECT_NAME).hex
 	@echo "Finish"
 
-stm32f103rct6.hex: stm32f103rct6.elf
+$(PROJECT_NAME).hex: $(PROJECT_NAME).elf
 	@echo 'Invoking: Cross ARM GNU Create Flash Image'
-	$(CP) -O ihex "stm32f103rct6.elf"  "stm32f103rct6.hex"
+	$(CP) -O ihex $< $@
 	@echo 'Finished building: $@'
 	@echo ' '
 
-stm32f103rct6.elf: $(C_OBJS) $(CPP_OBJS)
-	$(CXX) -mcpu=cortex-m3 -mthumb -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -ffreestanding  -g -T "ldscripts/mem.ld" -T "ldscripts/libs.ld" -T "ldscripts/sections.ld" -L"ldscripts" -nostartfiles -Xlinker --gc-sections -Wl,-Map,"stm32f103rct6.map" -o "stm32f103rct6.elf" $(C_OBJS:%.o=output/%.o) $(CPP_OBJS:%.o=output/%.o)
+$(PROJECT_NAME).elf: $(C_OBJS) $(CPP_OBJS)
+	$(CXX) -mcpu=cortex-m3 -mthumb -Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -ffreestanding  -g -T "ldscripts/mem.ld" -T "ldscripts/libs.ld" -T "ldscripts/sections.ld" -L"ldscripts" -nostartfiles -Xlinker --gc-sections -Wl,-Map,$(PROJECT_NAME)".map" -o $@ $(C_OBJS:%.o=output/%.o) $(CPP_OBJS:%.o=output/%.o)
 
 $(C_OBJS): %.o: %.c
 	@echo 'Building file: $<'
@@ -78,3 +81,6 @@ $(CPP_OBJS): %.o: %.cpp
 	$(CXX) $(CFLAGS) -MMD -MP -MF"output/$(@:%.o=%.d)" -MT"output/$@" -c -o "output/$@" $<
 	@echo 'Finished building: $<'
 	@echo ' '
+
+clean:
+	rm -Rf output/ $(PROJECT_NAME).map $(PROJECT_NAME).elf $(PROJECT_NAME).hex
