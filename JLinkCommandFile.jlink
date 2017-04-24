@@ -1,0 +1,6 @@
+r
+speed 4000
+device STM32F103RC
+loadbin /Users/xuwen/Documents/workspace/stm32f103rct6/stm32f103rct6.hex 0x08000000
+g
+qc
