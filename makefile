@@ -4,6 +4,7 @@ PROJECT_NAME := stm32f103rct6
 # 编译工具
 SDK_PATH := /Applications/gcc-arm-none-eabi/sdk/bin/
 
+# 参与编译的源文件列表
 SOURCE := system/src/newlib/_cxx.cpp \
           system/src/newlib/_exit.c \
 		  system/src/newlib/_sbrk.c \
@@ -21,6 +22,7 @@ SOURCE := system/src/newlib/_cxx.cpp \
 		  system/src/stm32f1-stdperiph/stm32f10x_gpio.c \
 		  src/main.c  
 
+# 编译选项
 CFLAGS := -mcpu=cortex-m3 \
           -mthumb \
 		  -Os \
@@ -30,9 +32,11 @@ CFLAGS := -mcpu=cortex-m3 \
 		  -fdata-sections \
 		  -ffreestanding \
 		  -g 
+# 参数
 FEATHER := -DSTM32F10X_HD \
            -DUSE_STDPERIPH_DRIVER \
 		   -DHSE_VALUE=8000000 
+# include目录
 INCLUDE := -I"include" \
            -I"system/include" \
 		   -I"system/include/cmsis" \
